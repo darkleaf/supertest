@@ -6,11 +6,8 @@ module Supertest
 
   autoload :Version
   autoload :TestCase
-  autoload :Runner
   autoload :TestResult
   autoload :TestStatistics
 
-  def self.run_tests
-    Runner.run_tests
-  end
+  at_exit {TestCase.descendants.each{ |klass| klass.call }}
 end
