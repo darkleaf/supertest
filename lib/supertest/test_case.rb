@@ -20,7 +20,7 @@ module Supertest
             ensure
                 time = Time.now - time
             end
-            instance.finished_tests << Test.new(time, result)
+            instance.finished_tests << Test.new(t, time, result)
         end
         instance
       end
