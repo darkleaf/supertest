@@ -38,11 +38,10 @@ module Supertest
     end
 
     def run_test(test)
-      time = Time.now
-      result = :success
       clear_assert_counters
 
-      send test
+      time = Time.now
+      result = send test
       time = Time.now - time
 
       TestStatistics.new test.to_s, time, result, @assert_success_count, @assert_failed_count
@@ -51,18 +50,20 @@ module Supertest
     private
 
     def success
-        add_assert_success
+        add_assert_success_count
+        :success
     end
 
     def failed
-        add_assert_failed
+        add_assert_failed_count
+        :failed
     end
 
-    def add_assert_failed
+    def add_assert_failed_count
         @assert_failed_count = @assert_failed_count + 1
     end
 
-    def add_assert_success
+    def add_assert_success_count
         @assert_success_count = @assert_success_count + 1
     end
 
