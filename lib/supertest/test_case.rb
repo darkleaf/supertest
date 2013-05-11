@@ -31,9 +31,9 @@ module Supertest
             block.call
         rescue error_class
             error_cathched = true
-            success
+            return success
         ensure
-            failed unless error_cathched
+            return failed unless error_cathched
         end
     end
 
