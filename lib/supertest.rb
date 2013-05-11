@@ -7,7 +7,7 @@ module Supertest
   autoload :Version
   autoload :TestCase
   autoload :Runner
-  autoload :TestController
+  autoload :TestResult
   autoload :TestStatistics
 
   def self.run_tests

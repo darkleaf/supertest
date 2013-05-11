@@ -7,25 +7,30 @@ module Supertest
 
     class << self
       def call()
-        test_controller = TestController.new
+        test_result = TestResult.new
 
         instance = new
         tests = instance.methods.grep /test_.*/
 
         tests.each do |t|
-          test_result = instance.run_test t
-          test_controller.notify test_result
+          stat = instance.run_test t
+          test_result.add_test_statistic stat
         end
+
+        test_result.results
       end
     end
 
     def assert(value)
       raise AssertFailedError unless value
+      @asserts_count = @asserts_count + 1
     end
 
     def run_test(test)
       time = Time.now
       result = :success
+      @asserts_count = 0
+
       begin
         send test
       rescue AssertFailedError
@@ -34,7 +39,7 @@ module Supertest
         time = Time.now - time
       end
 
-      TestStatistics.new test.to_s, time, result
+      TestStatistics.new test.to_s, time, result, @asserts_count
     end
   end
 end
