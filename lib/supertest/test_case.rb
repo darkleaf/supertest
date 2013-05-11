@@ -1,9 +1,10 @@
 module Supertest
   class TestCase
+    include ::ActiveSupport::DescendantsTracker
     class << self
       def call
         instance = new
-        tests = instance.methods.grep /test.*/
+        tests = instance.methods.grep /test_.*/
         tests.each{ |t| instance.send t }
       end
     end
