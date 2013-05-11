@@ -26,6 +26,18 @@ module Supertest
       @asserts_count = @asserts_count + 1
     end
 
+    def assert_raise(error_class, &block)
+        error_cathched = false
+        begin
+            block.call
+        rescue error_class
+            error_cathched = true
+            @asserts_count = @asserts_count + 1
+        ensure
+            raise AssertFailedError unless error_cathched
+        end
+    end
+
     def run_test(test)
       time = Time.now
       result = :success
