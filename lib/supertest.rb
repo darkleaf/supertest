@@ -1,5 +1,5 @@
 require "supertest/version"
 
 module Supertest
-  # Your code goes here...
+  autoload :TestCase, 'supertest/test_case.rb'
 end
