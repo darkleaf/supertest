@@ -22,8 +22,7 @@ module Supertest
     end
 
     def assert(value)
-      raise AssertFailedError unless value
-      @asserts_count = @asserts_count + 1
+        value ? success : failed
     end
 
     def assert_raise(error_class, &block)
@@ -32,26 +31,44 @@ module Supertest
             block.call
         rescue error_class
             error_cathched = true
-            @asserts_count = @asserts_count + 1
+            success
         ensure
-            raise AssertFailedError unless error_cathched
+            failed unless error_cathched
         end
     end
 
     def run_test(test)
       time = Time.now
       result = :success
-      @asserts_count = 0
+      clear_assert_counters
 
-      begin
-        send test
-      rescue AssertFailedError
-        result = :failed
-      ensure
-        time = Time.now - time
-      end
+      send test
+      time = Time.now - time
 
-      TestStatistics.new test.to_s, time, result, @asserts_count
+      TestStatistics.new test.to_s, time, result, @assert_success_count, @assert_failed_count
+    end
+
+    private
+
+    def success
+        add_assert_success
+    end
+
+    def failed
+        add_assert_failed
+    end
+
+    def add_assert_failed
+        @assert_failed_count = @assert_failed_count + 1
+    end
+
+    def add_assert_success
+        @assert_success_count = @assert_success_count + 1
+    end
+
+    def clear_assert_counters
+        @assert_failed_count = 0
+        @assert_success_count = 0
     end
   end
 end
