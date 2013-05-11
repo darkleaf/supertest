@@ -1,8 +1,12 @@
-require "supertest/version"
+require 'active_support/descendants_tracker'
+require 'active_support/dependencies/autoload'
 
 module Supertest
-  autoload :TestCase, 'supertest/test_case.rb'
-  autoload :Runner, 'supertest/runner.rb'
+  extend ActiveSupport::Autoload
+
+  autoload :Version
+  autoload :TestCase
+  autoload :Runner
 
   def self.run_tests
     Runner.run_tests

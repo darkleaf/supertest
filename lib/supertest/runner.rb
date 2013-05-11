@@ -1,9 +1,11 @@
 module Supertest
-    module Runner
-        def self.run_tests
-            at_exit do
-                puts TestCase.descendants
-            end
+  module Runner
+    class << self
+      def run_tests
+        at_exit do
+          TestCase.descendants.each{ |klass| klass.call }
         end
+      end
     end
+  end
 end

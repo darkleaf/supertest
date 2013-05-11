@@ -1,6 +1,6 @@
 module Supertest
   class TestCase
-    include ::ActiveSupport::DescendantsTracker
+    extend ActiveSupport::DescendantsTracker
     class << self
       def call
         instance = new
