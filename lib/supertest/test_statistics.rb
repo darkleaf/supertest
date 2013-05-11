@@ -1,5 +1,5 @@
 module Supertest
-    class Test
+    class TestStatistics
         attr_accessor :name, :time, :result
         def initialize(name, time, result)
             @name = name
