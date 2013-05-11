@@ -3,7 +3,8 @@ module Supertest
     class << self
       def run_tests
         at_exit do
-          TestCase.descendants.each{ |klass| klass.call }
+          tests = TestCase.descendants.map{ |klass| klass.call }
+          p tests
         end
       end
     end

@@ -7,6 +7,7 @@ module Supertest
   autoload :Version
   autoload :TestCase
   autoload :Runner
+  autoload :Test
 
   def self.run_tests
     Runner.run_tests
